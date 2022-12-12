@@ -3,7 +3,6 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes/routes');
 
@@ -19,7 +18,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 //ROUTES
-app.use('/api/v1', routes);
+app.use('/api', routes);
 
 app.listen(port, ()=>{
     console.log(`Server is running: ${port}`);

@@ -3,17 +3,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const FollowSchema = new Schema({
-    email: {
-        type: String,
-        required: true,
-        minlength: 10,
-        maxlength: 50,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
     },
-    bookId: {
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 100,
+    book: {
+        type: Schema.Types.ObjectId,
+        ref: 'Book',
     },
 }, {timestamps: true}
 );

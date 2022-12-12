@@ -8,7 +8,6 @@ const authController = {
             const username = req.body.username;
             const password = req.body.password;
             const email = req.body.email;
-            const role = req.body.role;
 
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
@@ -50,23 +49,18 @@ const authController = {
                 if (validPassword) {
                     const accessToken = authController.generateAccessToken(user);
                     const { password, ...other } = user._doc;
-                    return res.status(200).json({ ...other, accessToken });
+                    return res.status(200).json({ success: true, ...other, accessToken });
                 } else {
-                    return res.status(404).json({ message: 'Incorrect password' });
+                    return res.status(404).json({ success: false, message: 'Incorrect password' });
                 }
             } else {
-                return res.status(404).json({ message: 'Email does not exist' });
+                return res.status(404).json({ success: false, message: 'Email does not exist' });
             }
 
         } catch (error) {
-            return res.status(500).json({ message: 'Server Error' });
+            return res.status(500).json({ success: false, message: 'Server Error' });
         }
     },
-    logOut: async (req, res) => {
-        refreshTokens = refreshTokens.filter(token => token !== req.cookies.refreshToken);
-        res.clearCookie("refreshToken");
-        return res.status(200).json({ message: 'Log out!'});
-    }
 }
 
 module.exports = authController;
