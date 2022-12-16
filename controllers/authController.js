@@ -22,9 +22,9 @@ const authController = {
                 };
                 const user = await User.create(newUser);
                 console.log(user);
-                return res.status(200).json({ success: true, message: 'Successful account registration' });
+                return res.status(200).json('Successful account registration');
             } else {
-                return res.status(404).json({ success: false, message: 'Email already exists' });
+                return res.status(404).json('Email already exists');
             }
 
         } catch (error) {
@@ -48,8 +48,7 @@ const authController = {
                 let validPassword = await bcrypt.compare(password, user.password);
                 if (validPassword) {
                     const accessToken = authController.generateAccessToken(user);
-                    const { password, ...other } = user._doc;
-                    return res.status(200).json({ success: true, ...other, accessToken });
+                    return res.status(200).json({ token: accessToken });
                 } else {
                     return res.status(404).json({ success: false, message: 'Incorrect password' });
                 }
