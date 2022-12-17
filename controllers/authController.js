@@ -22,13 +22,13 @@ const authController = {
                 };
                 const user = await User.create(newUser);
                 console.log(user);
-                return res.status(200).json('Successful account registration');
+                return res.status(200).json({message: 'Successful account registration'});
             } else {
-                return res.status(404).json('Email already exists');
+                return res.status(404).json({message: 'Email already exists'});
             }
 
         } catch (error) {
-            return res.status(500).json({ success: false, message: 'Server Error' });
+            return res.status(500).json({ message: 'Server Error' });
         }
     },
     generateAccessToken: (user) => {
@@ -50,14 +50,14 @@ const authController = {
                     const accessToken = authController.generateAccessToken(user);
                     return res.status(200).json({ token: accessToken });
                 } else {
-                    return res.status(404).json({ success: false, message: 'Incorrect password' });
+                    return res.status(404).json({ message: 'Mật khẩu không đúng' });
                 }
             } else {
-                return res.status(404).json({ success: false, message: 'Email does not exist' });
+                return res.status(404).json({ message: 'Email không tồn tại' });
             }
 
         } catch (error) {
-            return res.status(500).json({ success: false, message: 'Server Error' });
+            return res.status(500).json({ message: 'Server Error' });
         }
     },
 }
