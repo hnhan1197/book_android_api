@@ -12,7 +12,6 @@ const BookSchema = new Schema({
     },
     bookDesc: {
         type: String,
-        required: false,
     },
     price: {
         type: Number,

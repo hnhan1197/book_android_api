@@ -3,6 +3,6 @@ const userController = require('../controllers/userController');
 
 const router = require('express').Router();
 
-router.get('/', userController.getAll).delete('/:id', userController.delete);
+router.get('/', middleware.verifyToken, userController.getOne);
 
 module.exports = router;
