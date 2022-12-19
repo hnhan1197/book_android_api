@@ -3,7 +3,16 @@ const Book = require('../models/Book');
 const bookController = {
     getAllBook: async (req, res) => {
         try {
-            const books = await Book.find().select('-__v');
+            const books = await Book.find().select('-__v').populate({ path: 'user', select: 'username' });
+            console.log("call success");
+            return res.status(200).json(books);
+        } catch (error) {
+            return res.status(500).json({ message: 'Lỗi server' });
+        }
+    },
+    getAllBookByUser: async (req, res) => {
+        try {
+            const books = await Book.find({user: req.user}).select('-__v').populate({ path: 'user', select: 'username' });
             return res.status(200).json(books);
         } catch (error) {
             return res.status(500).json({ message: 'Lỗi server' });
@@ -11,7 +20,7 @@ const bookController = {
     },
     getOneBook: async (req, res) => {
         try {
-            const book = await Book.findById(req.params.BookId).select('-__v');
+            const book = await Book.findById(req.params.BookId).select('-__v').populate({ path: 'user', select: 'username' });
             return res.status(200).json(book);
         } catch (error) {
             return res.status(500).json({ message: 'Lỗi server' });
@@ -20,7 +29,8 @@ const bookController = {
     addABook: async (req, res) => {
         try {
             const {bookName, bookImg, bookDesc, price} = req.body;
-            const newBook = await Book.create({bookName, bookImg, bookDesc, price, user: req.user});
+            const newBook = new Book({bookName: bookName, bookImg: bookImg, bookDesc: bookDesc, price: price, user: req.user});
+            await newBook.save();
             console.log(newBook);
             return res.status(200).json({ message: 'Thêm sách thành công' });
         } catch (error) {

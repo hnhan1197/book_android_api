@@ -9,7 +9,7 @@ const middleware = {
                 if (err) {
                     return res.status(403).json({success: false, message: 'Invalid Token'});
                 }
-                req.user = user;
+                req.user = user.id;
                 next();
             })
         } else{
