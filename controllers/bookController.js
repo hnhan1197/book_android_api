@@ -30,9 +30,10 @@ const bookController = {
         try {
             const {bookName, bookImg, bookDesc, price} = req.body;
             const newBook = new Book({bookName: bookName, bookImg: bookImg, bookDesc: bookDesc, price: price, user: req.user});
-            await newBook.save();
-            console.log(newBook);
-            return res.status(200).json({ message: 'Thêm sách thành công' });
+            const savedBook = await newBook.save();
+            const bookResponse = await Book.findById(savedBook._id).select('-__v').populate({ path: 'user', select: 'username' });
+            console.log(bookResponse);
+            return res.status(200).json(bookResponse);
         } catch (error) {
             return res.status(500).json({ message: 'Lỗi server' });
         }
@@ -40,8 +41,7 @@ const bookController = {
     editABook: async (req, res) => {
         try {
             const {bookName, bookImg, bookDesc, price} = req.body;
-            const book = await Book.findByIdAndUpdate( req.params.BookId, {bookName, bookImg, bookDesc, price});
-            console.log(book);
+            await Book.findByIdAndUpdate( req.params.BookId, {bookName, bookImg, bookDesc, price});
             return res.status(200).json({ message: 'Sửa thông tin sách thành công' });
         } catch (error) {
             return res.status(500).json({ message: 'Lỗi server' });

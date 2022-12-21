@@ -3,9 +3,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ReceiptSchema = new Schema({
-    amount: {
-        type: Number
-    },
     price: {
         type: Number
     },
