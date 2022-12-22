@@ -3,6 +3,6 @@ const receiptController = require('../controllers/receiptController');
 
 const router = require('express').Router();
 
-router.post('/', middleware.verifyToken, receiptController.createReceipt);
+router.post('/', middleware.verifyToken, receiptController.createReceipt).get('/', middleware.verifyToken, receiptController.getAllReceipt);
 
 module.exports = router;
